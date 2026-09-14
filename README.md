@@ -46,3 +46,32 @@ python train_wake_model.py
 
 # Start the FastAPI WebSocket server
 uvicorn main:app --reload
+
+### 2. Frontend Setup
+In a new terminal window, navigate to the frontend directory and start the Vite development server.
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+## 🎮 Usage
+
+*   **Select Airspace:** Use the dropdown in the ATC Agent Log panel to switch between global airport sectors.
+*   **Target Inspector:** Click on any 3D aircraft cone to view its live telemetry, callsign, and wake category.
+*   **Monitor Agent Logs:** Watch the UI for red XGBoost System Alerts, and listen for the synthetic radio broadcasts when the LLM successfully resolves a conflict.
+*   **Export Analytics:** Click `[ Generate Shift Report ]` to download a PDF breakdown of session traffic and time-stamped conflict logs.
+
+## 🐳 Docker Deployment
+
+The Python backend is containerized for cloud deployment (AWS App Runner / Azure Container Apps). 
+
+```bash
+# Build the image
+docker build -t flight-router-backend .
+
+# Run locally to test containerization
+docker run -p 8000:8000 flight-router-backend
+```
+*Note: Ensure the cloud provider is configured with a minimum instance count of `1` to prevent serverless scale-to-zero cold starts from dropping the continuous WebSocket loop.*
