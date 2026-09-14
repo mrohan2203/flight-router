@@ -1,0 +1,22 @@
+# Dependencies
+node_modules/
+backend/__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+env/
+
+# Build & Dist Outputs
+dist/
+build/
+*.egg-info/
+
+# Generated Runtime Files
+*.pdf
+.DS_Store
+Thumbs.db
+
+# Environment & Local Configs
+.env
+.env.local
