@@ -2,9 +2,10 @@ import xgboost as xgb
 import numpy as np
 from typing import TypedDict, List, Dict, Any
 from langgraph.graph import StateGraph, END
-from langchain_ollama import ChatOllama
 from langchain_core.messages import SystemMessage, HumanMessage
 from langchain_core.tools import tool
+import os
+from langchain_groq import ChatGroq
 
 try:
     safety_model = xgb.XGBClassifier()
@@ -23,7 +24,11 @@ def divert_heavy_aircraft(callsign: str):
     """Diverts a heavy aircraft to a different holding pattern."""
     pass
 
-llm = ChatOllama(model="llama3.1", temperature=0).bind_tools([issue_descent_clearance, divert_heavy_aircraft])
+llm = ChatGroq(
+    model="llama-3.1-8b-instant",
+    temperature=0,
+    api_key=os.environ.get("GROQ_API_KEY")
+).bind_tools([issue_descent_clearance, divert_heavy_aircraft])
 
 class AgentState(TypedDict):
     telemetry: List[Dict[str, Any]]
