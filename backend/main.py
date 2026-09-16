@@ -64,8 +64,8 @@ async def websocket_endpoint(websocket: WebSocket, airport_code: str):
     except WebSocketDisconnect:
         print("React frontend disconnected.")
 
-@app.get("/download-report")
-def download_shift_report():
+@app.get("/download-report/{airport_code}")
+def download_report(airport_code: str):
     pdf = FPDF()
     pdf.add_page()
     pdf.set_font("Courier", size=12)
@@ -93,4 +93,4 @@ def download_shift_report():
             
     file_path = "shift_report.pdf"
     pdf.output(file_path)
-    return FileResponse(file_path, media_type='application/pdf', filename="Airspace_Shift_Report.pdf")
+    return FileResponse("shift_report.pdf", media_type="application/pdf", filename=f"Shift_Report_{airport_code}.pdf")
