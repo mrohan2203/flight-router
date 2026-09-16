@@ -58,18 +58,6 @@ export default function App() {
     }
   }, [telemetry, selectedAircraft]);
 
-  // --- NEW: Dynamic Report Handler ---
-  const handleDownloadReport = () => {
-    // Convert the wss:// Render URL back into a standard https:// URL for the PDF download
-    // Fall back to localhost if running locally without environment variables
-    const baseUrl = import.meta.env.VITE_WS_URL
-      ? import.meta.env.VITE_WS_URL.replace("wss://", "https://").replace("/ws/telemetry", "")
-      : "http://localhost:8000";
-      
-    // Open the new tab with the correctly formatted dynamic route
-    window.open(`${baseUrl}/download-report/${activeAirport}`, '_blank');
-  };
-
   return (
     <div style={{ width: '100vw', height: '100vh', background: '#050a0a', position: 'relative', overflow: 'hidden', fontFamily: 'monospace' }}>
       <Canvas camera={{ position: [0, 75, 75], fov: 50 }}>
@@ -179,9 +167,14 @@ export default function App() {
         </div>
 
         <div style={{ height: 1, background: '#1a4d40', margin: '16px 0' }} />
-        {/* --- NEW: Button tied to the dynamic handler --- */}
         <button 
-          onClick={handleDownloadReport}
+          onClick={() => {
+            const baseUrl = import.meta.env.VITE_WS_URL
+              ? import.meta.env.VITE_WS_URL.replace("wss://", "https://").replace("/ws/telemetry", "")
+              : "https://flight-router-backend.onrender.com";
+              
+            window.open(`${baseUrl}/download-report/${activeAirport}`, '_blank');
+          }}
           style={{
             width: '100%', padding: '8px 0', background: 'rgba(0, 255, 204, 0.1)',
             border: '1px solid #00ffcc', color: '#00ffcc', borderRadius: 4,
