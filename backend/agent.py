@@ -25,7 +25,7 @@ def divert_heavy_aircraft(callsign: str):
     pass
 
 llm = ChatGroq(
-    model="llama-3.1-8b-instant",
+    model="openai/gpt-oss-20b",  # <-- Update this line
     temperature=0,
     api_key=os.environ.get("GROQ_API_KEY")
 ).bind_tools([issue_descent_clearance, divert_heavy_aircraft])
